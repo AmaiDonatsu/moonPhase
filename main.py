@@ -3,7 +3,7 @@ from lunapack.computes import computePhases
 
 if __name__ == '__main__':
     calendar_phases = computePhases(2024)
-    generate_calendar(calendar_phases, month = 0)
-    print(calendar_phases)
+    generate_calendar(calendar_phases, year = 2024)
+    #print(calendar_phases)
 
 

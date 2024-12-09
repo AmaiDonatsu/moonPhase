@@ -1,4 +1,8 @@
-from .globals import LAST_NEW_MOON_OF_LAST_YEAR, FRIST_NEW_MOON_OF_NEXT_YEAR, YEAR_DAYS, CYCLES_PER_SOLAR_YEAR, BASE_YEAR, NEW_MOON_OF_JULIAN_JANURY_2000
+from .globals import (
+        LAST_NEW_MOON_OF_LAST_YEAR, FRIST_NEW_MOON_OF_NEXT_YEAR, 
+        YEAR_DAYS, CYCLES_PER_SOLAR_YEAR, BASE_YEAR, 
+        NEW_MOON_OF_JULIAN_JANURY_2000, NEW_MOON, FIRST_QUARTER, FULL_MOON, LAST_QUARTER
+    )
 from .formats import calendarFormat
 import juliandate as jd
 import math
@@ -10,10 +14,10 @@ def computePhases(year):
 
     for i in range(LAST_NEW_MOON_OF_LAST_YEAR, FRIST_NEW_MOON_OF_NEXT_YEAR):
         calendar.extend([
-            calendarFormat(getPhaseDate(cycle + i, 0), "New"),
-            calendarFormat(getPhaseDate(cycle + i, 0.25), "First quarter"),
-            calendarFormat(getPhaseDate(cycle + i, 0.5), "Full moon"),
-            calendarFormat(getPhaseDate(cycle + i, 0.75), "Last quarter")
+            calendarFormat(getPhaseDate(cycle + i, NEW_MOON), "New"),
+            calendarFormat(getPhaseDate(cycle + i, FIRST_QUARTER), "First quarter"),
+            calendarFormat(getPhaseDate(cycle + i, FULL_MOON), "Full moon"),
+            calendarFormat(getPhaseDate(cycle + i, LAST_QUARTER), "Last quarter")
         ])
 
    
@@ -72,14 +76,14 @@ def getPhaseDate(cycle, phase):
 
     correction = 0
 
-    if phase == 0:
+    if phase == NEW_MOON:
         correction = 0.00002*math.sin(4*Mp) + -0.00002*math.sin(3*Mp + M) + -0.00002*math.sin(Mp - M - 2*F) + 0.00003*math.sin(Mp - M + 2*F) + \
             -0.00003*math.sin(Mp + M + 2*F) + 0.00003*math.sin(2*Mp + 2*F) + 0.00003*math.sin(Mp + M - 2*F) + 0.00004*math.sin(3*M) + \
             0.00004*math.sin(2*Mp - 2*F) + -0.00007*math.sin(Mp + 2*M) + -0.00017*math.sin(Om) + -0.00024*E*math.sin(2*Mp - M) + 0.00038*E*math.sin(M - 2*F) + \
             0.00042*E*math.sin(M + 2*F) + -0.00042*math.sin(3*Mp) + 0.00056*E*math.sin(2*Mp + M) + -0.00057*math.sin(Mp + 2*F) + -0.00111*math.sin(Mp - 2*F) + \
             0.00208*E*E*math.sin(2*M) + -0.00514*E*math.sin(Mp + M) + 0.00739*E*math.sin(Mp - M) + 0.01039*math.sin(2*F) + 0.01608*math.sin(2*Mp) + \
             0.17241*E*math.sin(M) + -0.40720*math.sin(Mp)
-    elif phase == 0.25:
+    elif phase == FIRST_QUARTER:
         correction = -0.00002*math.sin(3*Mp + M) + 0.00002*math.sin(Mp - M + 2*F) + 0.00002*math.sin(2*Mp - 2*F) + 0.00003*math.sin(3*M) + \
             0.00003*math.sin(Mp + M - 2*F) + 0.00004*math.sin(Mp - 2*M) + -0.00004*math.sin(Mp + M + 2*F) + 0.00004*math.sin(2*Mp + 2*F) + \
             -0.00005*math.sin(Mp - M - 2*F) + -0.00017*math.sin(Om) + 0.00027*E*math.sin(2*Mp + M) + -0.00028*E*E*math.sin(Mp + 2*M) + \
@@ -89,12 +93,12 @@ def getPhaseDate(cycle, phase):
     
         W = 0.00306 - 0.00038*E*math.cos(M) + 0.00026*math.cos(Mp) - 0.00002*math.cos(Mp - M) + 0.00002*math.cos(Mp + M) + 0.00002*math.cos(2*F)
 
-        if phase == 0.25:
+        if phase == FIRST_QUARTER:
             correction += W
         else:
             correction -= W
     
-    elif phase == 0.5:
+    elif phase == FULL_MOON:
         correction = 0.00002*math.sin(4*Mp) + -0.00002*math.sin(3*Mp + M) + -0.00002*math.sin(Mp - M - 2*F) + 0.00003*math.sin(Mp - M + 2*F) + \
             -0.00003*math.sin(Mp + M + 2*F) + 0.00003*math.sin(2*Mp + 2*F) + 0.00003*math.sin(Mp + M - 2*F) + 0.00004*math.sin(3*M) + \
             0.00004*math.sin(2*Mp - 2*F) + -0.00007*math.sin(Mp + 2*M) + -0.00017*math.sin(Om) + -0.00024*E*math.sin(2*Mp - M) + \
